@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Plain HTML page with AJAX-loaded image
+        </title>
+        <script type="text/javascript">
+            function loadImg() {
+
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4) {
+                        console.log('readyState 4');
+                        if (xmlhttp.status = 200) {
+                            var img = document.createElement('img');
+                            img.src = window.URL.createObjectURL(this.response);
+                            img.onload = function() {
+                                window.URL.revokeObjectURL(this.src);
+                            }
+                            document.body.appendChild(img);
+                        } else if (xmlhttp.status = 400) {
+                            alert("Oh no, there was an error 400");
+                        } else {
+                            alert("Something else other than 200 or 400 returned")
+                        }
+                    }
+                }
+                xmlhttp.open("GET", "lenna.png", true);
+                xmlhttp.responseType = "blob";
+                xmlhttp.send();
+            }
+            document.addEventListener("DOMContentLoaded", function(event) { 
+                loadImg();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Plain HTML page with AJAX-loaded image</h1>
+        <p>Bacon ipsum dolor amet lorem landjaeger corned beef in venison reprehenderit picanha ipsum alcatra shoulder strip steak chicken. Salami eiusmod ham commodo nulla, hamburger tongue sed incididunt duis ham hock sausage ullamco pork belly proident. Tempor strip steak ball tip spare ribs picanha in chicken ground round culpa rump tail pancetta pig. Laboris pariatur pig, exercitation salami do labore andouille aliqua bacon anim dolore. Mollit brisket kevin aliqua enim ut tri-tip.</p>
+    </body>
+</html>
